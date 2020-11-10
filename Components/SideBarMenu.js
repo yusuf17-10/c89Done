@@ -15,6 +15,7 @@ export default class SideBarMenu extends React.Component{
                 <TouchableOpacity style={{width:100,height:50,backgroundColor:"blue",borderRadius:10}}
                 onPress={()=>{
                     this.props.navigation.navigate("WelcomeScreen")
+                    firebase.auth().signOut
                 }}>
                     <Text>Logout</Text>
                 </TouchableOpacity>

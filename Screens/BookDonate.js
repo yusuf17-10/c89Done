@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View,Text,TextInput,StyleSheet} from 'react-native';
-//import {ScrollView,TouchableOpacity} from "react-native-gesture-handler";
+import {ScrollView,TouchableOpacity} from "react-native-gesture-handler";
 import db from "../config";
 
 
 
 
-export default class BookDonate extends React.Component{
+/*export default class BookDonate extends React.Component{
     render(){
         return(
             <View style={styles.container}>
@@ -23,8 +23,8 @@ export default class BookDonate extends React.Component{
             alignItems:'center',
             justifyContent:'center',
          }
-    })
-/*
+    })*/
+
 export default class BookDonate extends React.Component{
     constructor(){
         super();
@@ -64,7 +64,7 @@ var styles=StyleSheet.create({
         justifyContent:'center',
      }
 })
-*/
+
 
 
 
