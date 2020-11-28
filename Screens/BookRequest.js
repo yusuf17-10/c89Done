@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,ALert} from 'react-native';
+import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,Alert} from 'react-native';
 import firebase from "firebase";
 import db from "../config"
 
