@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, FlatList,TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import firebase from 'firebase';
-import db from '../config'
+import db from '../config';
+
 
 
 export default class BookDonateScreen extends Component{
@@ -42,7 +43,9 @@ export default class BookDonateScreen extends Component{
         subtitle={item.reason_to_request}
         titleStyle={{ color: 'black', fontWeight: 'bold' }}
         rightElement={
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={()=>{
+              this.props.navigation.navigate("ReceiverDetails",{"details":item})
+            }}>
               <Text style={{color:'#ffff'}}>View</Text>
             </TouchableOpacity>
           }

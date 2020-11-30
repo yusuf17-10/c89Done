@@ -4,7 +4,7 @@ import firebase from "firebase";
 import db from "../config";
 
 
-export default class SettingScreen extends React.component{
+export default class SettingScreen extends React.Component{
     constructor(){
         super();
         this.state = {
