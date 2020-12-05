@@ -21,8 +21,8 @@ export default class WelcomeScreen extends React.Component {
       emailId: '',
       password: '',
       isModalVisible:"false",
-      firstname:"",
-      lastname:"",
+      firstName:"",
+      lastName:"",
       address:"",
       phone:"",
       confirmPassword:"",
@@ -62,10 +62,11 @@ export default class WelcomeScreen extends React.Component {
     
         })
         db.collection("user").add({
-          first_name:this.state.firstname,
-          last_name:this.state.lastname,
+          firstName:this.state.firstName,
+          lastName:this.state.lastName,
           phone:this.state.phone,
           address:this.state.address,
+          emailId:this.state.emailId
 
         })
       }
@@ -86,19 +87,24 @@ export default class WelcomeScreen extends React.Component {
       <Text>Registration</Text>
       <TextInput 
       style={styles.input}
+      value={this.state.firstName}
       placeholder={"FirstName"}
       maxLength={8}
       onChangeText={(text)=>{
-        this.setState({firstname:text})
+        this.setState({firstName:text})
       }}/>
        <TextInput 
        style={styles.input}
+       value={this.state.lastName}
+
       placeholder={"LastName"}
       maxLength={8}
       onChangeText={(text)=>{
-        this.setState({lastname:text})
+        this.setState({lastName:text})
       }}/>
        <TextInput
+             value={this.state.address}
+
        style={styles.input} 
       placeholder={"address"}
       multiline={true}
@@ -107,6 +113,8 @@ export default class WelcomeScreen extends React.Component {
       }}/>
        <TextInput 
        style={styles.input}
+       value={this.state.phone}
+
       placeholder={"PhoneNumber"}
       keyboardType={"numeric"}
       maxLength={10}
@@ -114,7 +122,31 @@ export default class WelcomeScreen extends React.Component {
         this.setState({phone:text})
       }}/>
 
+
+          <TextInput
+            value={this.state.emailId}
+             placeholder="email"
+            keyboardType="email-address"
+            style={styles.input}
+            onChangeText={(text) => {
+              this.setState({ emailId: text });
+            }}
+          />
+        
+        
+          <TextInput
+            placeholder="password"
+            value={this.state.password}
+            secureTextEntry={true}
+            style={styles.input}
+            onChangeText={(text) => {
+              this.setState({ password: text });
+            }}
+          />
+
+
 <TextInput 
+
       style={styles.input}
       placeholder={"ConfirmPassword"}
       secureTextEntry={true}
@@ -157,6 +189,7 @@ export default class WelcomeScreen extends React.Component {
 
         
           <TextInput
+            value={this.state.emailId}
              placeholder="email"
             keyboardType="email-address"
             style={styles.input}
@@ -168,6 +201,7 @@ export default class WelcomeScreen extends React.Component {
         
           <TextInput
             placeholder="password"
+            value={this.state.password}
             secureTextEntry={true}
             style={styles.input}
             onChangeText={(text) => {

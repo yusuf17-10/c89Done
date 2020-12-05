@@ -9,18 +9,18 @@ export default class SettingScreen extends React.Component{
         super();
         this.state = {
             emailId: '',
-            first_name:"",
-            last_name:"",
+            firstName:"",
+            lastName:"",
             address:"",
             phone:"",
-            docid:""
+            docId:""
           };
     }
 
     updateUserDetails=()=>{
-        db.collection("user").doc(this.state.docid).update({
-            first_name:this.state.first_name,
-            last_name:this.state.last_name,
+        db.collection("user").doc(this.state.docId).update({
+            firstName:this.state.firstName,
+            lastName:this.state.lastName,
             address:this.state.address,
             phone:this.state.phone
         })
@@ -38,11 +38,11 @@ export default class SettingScreen extends React.Component{
                 var data = doc.data()
                 this.setState({
                     emailId:data.emailId,
-                    first_name:data.first_name,
-                    last_name:data.last_name,
+                    firstName:data.firstName,
+                    lastName:data.lastName,
                     address:data.address,
                     phone:data.phone,
-                    docid:doc.id,
+                    docId:doc.id,
                 })
             })
         })
@@ -56,25 +56,25 @@ export default class SettingScreen extends React.Component{
             <View style={{justifyContent:"center",flex:1}}>
                 <Text>SettingScreen</Text>
 
-            <TextInput placeholder={"first_name"}
+            <TextInput placeholder={"firstName"}
             style={styles.input}
             onChangeText={(text)=>{
                 this.setState({
-                    first_name:text
+                    firstName:text
                 })
             }}
-            value={this.state.first_name}>
+            value={this.state.firstName}>
             </TextInput>
 
             <TextInput 
-                placeholder={"last_name"}
+                placeholder={"lastName"}
                 style={styles.input}
                 onChangeText={(text)=>{
                     this.setState({
-                        last_name:text
+                        lastName:text
                     })
                 }}
-                value={this.state.last_name}>
+                value={this.state.lastName}>
             </TextInput>
 
             

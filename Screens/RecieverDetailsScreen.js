@@ -12,7 +12,7 @@ export default class ReceiverDetails extends React.Component{
 
         this.state={
             userId:firebase.auth().currentUser.email,
-            receiverId:this.props.navigation.getParam("details")["userid"],
+            receiverId:this.props.navigation.getParam("details")["userId"],
             requestId:this.props.navigation.getParam("details")["requestId"],
             bookName:this.props.navigation.getParam("details")["bookName"],
             reasonForRequest:this.props.navigation.getParam("details")["reasonToRequest"],
@@ -26,8 +26,21 @@ export default class ReceiverDetails extends React.Component{
         }
     }
 
+    addNotification=()=>{
+        var message=this.state.userId+" has shown intrest in donating the book";
+        db.collection("allNotifications").add({
+            targetedUserId:this.state.receiverId,
+            donorId:this.state.userId,
+            requestId:this.state.requestId,
+            bookName:this.state.bookName,
+            date:firebase.firestore.FieldValue.serverTimestamp(),
+            notificationStatus:"unRead",
+            message:message
+        })
+    }
+
     getReceiverDetails=()=>{
-        db.collection("users").where("emailId","==",this.state.receiverId).get()
+        db.collection("user").where("emailId","==",this.state.receiverId).get()
         .then(
             snapshot=>{
                 snapshot.forEach(doc=>{
@@ -69,9 +82,10 @@ export default class ReceiverDetails extends React.Component{
                 <View>
                     {this.state.receiverId!== this.state.userId ?
                     (<TouchableOpacity onPress={()=>{
+                        this.addNotification()
                         this.updateBookStatus()
-                        this.props.navigation.navigate("MyDonation")
-                    }}>I Want To Donate</TouchableOpacity>)
+                        this.props.navigation.navigate("MyDonations")
+                    }}><Text>I Want To Donate</Text></TouchableOpacity>)
                 :null}
 
                 </View>

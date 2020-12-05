@@ -7,7 +7,8 @@ import MyDonations from "./MyDonationsScreen";
 export const AppDrawerNavigator=createDrawerNavigator({
     Home:{screen:AppTabNavigator},
     MyDonations:{screen:MyDonations},
-    Setting:{screen:SettingScreen}
+    Setting:{screen:SettingScreen},
+    
 },
 
 {

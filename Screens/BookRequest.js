@@ -28,10 +28,7 @@ export default class BookRequest extends React.Component{
             reasonToRequest:reasonToRequest,
             requestId:randomRequestId
         })
-        this.setState({
-            bookName:"",
-            reasonToRequest:"",
-        })
+        
         return Alert.alert("Book Requested sucssesfully");
     }
 
