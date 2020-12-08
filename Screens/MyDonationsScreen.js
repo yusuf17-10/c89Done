@@ -3,6 +3,8 @@ import {Text,TouchableOpacity,View,StyleSheet} from "react-native";
 import db from "../config";
 import firebase from "firebase";
 import {ListItem,Icon} from "react-native-elements";
+import MyHeader from "../Components/MyHeader";
+
 export default class MyDonations extends React.Component{
 
     constructor(){
@@ -110,7 +112,10 @@ export default class MyDonations extends React.Component{
     render(){
         return(
           <View style={{flex:1}}>
-            
+            <MyHeader
+            title={"Donations"}
+            navigation={this.props.navigation}
+            />
             <View style={{flex:1}}>
               {
                 this.state.allDonations.length === 0

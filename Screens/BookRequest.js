@@ -2,7 +2,7 @@ import * as React from 'react';
 import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,Alert} from 'react-native';
 import firebase from "firebase";
 import db from "../config"
-
+import MyHeader from "../Components/MyHeader";
 export default class BookRequest extends React.Component{
     constructor(){
         super();
@@ -35,6 +35,10 @@ export default class BookRequest extends React.Component{
 render(){
     return(
         <View style={styles.container}>
+              <MyHeader
+            title={"Book Request"}
+            navigation={this.props.navigation}
+            />
             <Text>BookRequest Screen</Text>
             
             <KeyboardAvoidingView>
