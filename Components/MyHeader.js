@@ -26,7 +26,7 @@ export default class MyHeader extends React.Component{
     }
 
 
- BellIconwithBadge = ()=>{
+ BellIconWithBadge = ()=>{
     return(
         <View>
             <Icon
@@ -34,7 +34,7 @@ export default class MyHeader extends React.Component{
             type="font-awesome"
             color="black"
             onPress={()=>{
-                props.navigation.navigate("notification")
+                this.props.navigation.navigate("notification")
             }}
             />
             <Badge
@@ -56,13 +56,13 @@ export default class MyHeader extends React.Component{
             type="font-awesome"
             color="black"
             onPress={()=>{
-                props.navigation.toggleDrawer()
+                this.props.navigation.toggleDrawer()
             }}
 
             />}
 
             rightComponent={
-                <BellIconwithBadge {...props}/>
+                <BellIconWithBadge {...props}/>
             
             }
         />

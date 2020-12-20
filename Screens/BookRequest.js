@@ -1,22 +1,63 @@
 import * as React from 'react';
-import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,Alert} from 'react-native';
+import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,ALert} from 'react-native';
 import firebase from "firebase";
 import db from "../config"
-import MyHeader from "../Components/MyHeader";
+import { ThemeProvider } from 'react-native-elements';
+
 export default class BookRequest extends React.Component{
     constructor(){
         super();
         this.state={
             userId:firebase.auth().currentUser.email,
             bookName:"",
-            reasonToRequest:""
-
+            reasonToRequest:"",
+            isBookRequestActive:"",
+            userDocId:""
         }
 
     }
 
     createuniqueId(){
         return Math.random().toString(36).substring(7);
+    }
+
+    sendNotification=()=>{
+        db.collection("user").where("emailId","==",this.state.userId).get()
+        .then((snapshot)=>{
+            snapshot.forEach((doc)=>{
+                var name = doc.data().firstName
+                var lastname = doc.data().lastname
+                db.collection("allNotification").where("requestId","==",this.state.requestId).get()
+                .then((snapshot)=>{
+                    snapshot.forEach((doc)=>{
+                        var donorId = doc.data().donorId;
+                        var bookName = doc.data().bookName
+                        db.collection("allDonations").add({
+                            targetedUserId : donorId,
+                            message : name+" "+lastname+" Received The Book "+bookName,
+                            notificationStatus:"unread",
+                            bookName:bookName
+                        })
+
+                    })
+                })
+
+            })
+        })
+    }    
+
+    updateBookRequestedStatus=()=>{
+        db.collection("requestedBooks").doc(this.state.docId).update({
+            bookStatus:"recieved"
+        })
+        db.collection("user").where("emailId","==",this.state.userId).get()
+        .then((snapshot)=>{
+            snapshot.forEach((doc)=>{
+                db.collection("user").doc(doc.id).update({
+                    isBookRequestActive:false
+                })
+            })
+        })
     }
 
     addRequest=(bookName,reasonToRequest)=>{
@@ -26,19 +67,109 @@ export default class BookRequest extends React.Component{
             userId:userId,
             bookName:bookName,
             reasonToRequest:reasonToRequest,
-            requestId:randomRequestId
+            requestId:randomRequestId,
+            date:firebase.firestore.FieldValue.serverTimestamp()
         })
-        
+        await this.getBookRequest()
+        db.collection("user").where("emailId","==",userId).get()
+        .then().then((snapshot)=>{
+            snapshot.forEach((doc)=>{
+                db.collection("user").doc(doc.id).update({
+                    isBookRequestActive:true
+                })
+           })
+        })
+        this.setState({
+            bookName:"",
+            reasonToRequest:"",
+        })
         return Alert.alert("Book Requested sucssesfully");
     }
+    getBookRequest=()=>{
+        var bookRequest = db.collection("requestedBooks").where("userId","==",this.state.userId).get()
+        .then((snapshot)=>{
+            snapshot.forEach((doc)=>{
+                if(doc.data().bookStatus!=="received"){
+                    this.setState({
+                        requestId:doc.data().requestId,
+                        requestedBookName:doc.data().bookName,
+                        bookStatus:doc.data().bookStatus,
+                        docId:doc.id
+                    })
+                }
+            })
+        })
+    }
 
+    receivedBook=(bookName)=>{
+        var requestId = this.state.requestId;
+        var userId = this.state.userId;
+        db.collection("receivedBooks").add({
+            userId:userId,
+            bookName:bookName,
+            requestId:requestId,
+            bookStatus:"received"
+
+        })
+    }
+
+    getIsBookRequestActive(){
+        db.collection("user").where("emailId","==",this.state.userId)
+        .onSnapshot((querySnapShot)=>{
+            querySnapShot.forEach((doc)=>{
+                this.setState({
+                    isBookRequestActive:doc.data().isBookRequestActive,
+                    userDocId:doc.id
+                })
+            })
+        })
+    }
+
+
+
+    
 render(){
+    if(this.state.isBookRequestActive === true){
+
+        return(
+            <View style={{flex:1,justifyContent:"center"}}>
+                <View style={{justifyContent:"center",flex:1,flexDirection:'row'}}>
+                <Text>
+                    BOOK NAME
+                </Text>
+                
+                <Text>
+                    {
+                        this.state.requestedBookName
+                    }
+                </Text>
+                </View>
+
+                <View style={{justifyContent:"center",flex:1,flexDirection:'row'}}>
+                <Text>
+                    BOOK Status
+                </Text>
+                
+                <Text>
+                    {
+                        this.state.bookStatus
+                    }
+                </Text>
+                </View>
+                <TouchableOpacity style={styles.button}
+                onPress={()=>{
+                    this.sendNotification()
+                    this.updateBookRequestedStatus()
+                    this.receivedBook(this.state.requestedBookName)
+                }}>
+                    <Text >Recieved The Book </Text>
+                </TouchableOpacity>
+            </View>
+        )
+
+    }else{
     return(
         <View style={styles.container}>
-              <MyHeader
-            title={"Book Request"}
-            navigation={this.props.navigation}
-            />
             <Text>BookRequest Screen</Text>
             
             <KeyboardAvoidingView>
@@ -71,6 +202,7 @@ render(){
             </KeyboardAvoidingView>
         </View>
     )
+}
 }
 }
 
