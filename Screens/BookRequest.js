@@ -60,7 +60,7 @@ export default class BookRequest extends React.Component{
         })
     }
 
-    addRequest=(bookName,reasonToRequest)=>{
+    addRequest=async(bookName,reasonToRequest)=>{
         var userId=this.state.userId
         var randomRequestId=this.createuniqueId();
         db.collection("requestedBooks").add({
@@ -70,7 +70,7 @@ export default class BookRequest extends React.Component{
             requestId:randomRequestId,
             date:firebase.firestore.FieldValue.serverTimestamp()
         })
-        await this.getBookRequest()
+         await this.getBookRequest()
         db.collection("user").where("emailId","==",userId).get()
         .then().then((snapshot)=>{
             snapshot.forEach((doc)=>{

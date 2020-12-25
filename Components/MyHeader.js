@@ -21,6 +21,8 @@ export default class MyHeader extends React.Component{
             })
         })
     }
+
+    
     componentDidMount(){
         this.getNumberOfNotifications()
     }
@@ -34,7 +36,7 @@ export default class MyHeader extends React.Component{
             type="font-awesome"
             color="black"
             onPress={()=>{
-                this.props.navigation.navigate("notification")
+          //      this.props.navigation.navigate("notification")
             }}
             />
             <Badge
@@ -56,13 +58,13 @@ export default class MyHeader extends React.Component{
             type="font-awesome"
             color="black"
             onPress={()=>{
-                this.props.navigation.toggleDrawer()
+               // this.props.navigation.toggleDrawer()
             }}
 
             />}
 
             rightComponent={
-                <BellIconWithBadge {...props}/>
+                <this.BellIconWithBadge {...props}/>
             
             }
         />
