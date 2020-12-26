@@ -72,9 +72,9 @@ export default class ReceiverDetails extends React.Component{
 
                 <View>
 
-                <Card>
+                <Text>
                     Name:{this.state.bookName}
-                </Card>
+                </Text>
 
                 </View>
                 

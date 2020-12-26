@@ -56,16 +56,13 @@ export default class NotificationsScreen extends React.Component{
     render(){
         return(
           <View style={{flex:1}}>
-            <MyHeader
-            title={"Notifications"}
-            navigation={this.props.navigation}
-            />
+           
             <View style={{flex:1}}>
                 
               {
                 this.state.allNotifications.length === 0
                 ?(
-                  <View style={styles.subContainer}>
+                  <View style={{flex:1}}>
                     <Text style={{ fontSize: 20}}>You Have No Notifications</Text>
                   </View>
                 )

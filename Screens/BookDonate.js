@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, FlatList,TouchableOpacity } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { View, StyleSheet, Text, FlatList,TouchableOpacity} from 'react-native';
+import { ListItem,Image } from 'react-native-elements';
 import firebase from 'firebase';
 import db from '../config';
 import MyHeader from "../Components/MyHeader";
@@ -50,6 +50,12 @@ export default class BookDonateScreen extends Component{
               <Text style={{color:'#ffff'}}>View</Text>
             </TouchableOpacity>
           }
+          leftElement={
+            <Image
+            style={{width:"30%",height:"10%"}}
+            source={{uri:item.imageLink}}
+            />
+          }
         bottomDivider
       />
     )
@@ -58,9 +64,7 @@ export default class BookDonateScreen extends Component{
   render(){
     return(
       <View style={{flex:1}}>
-        <MyHeader title={"Book Donation"}
-        navigation={this.props.navigation}
-        />
+        
 
         <View style={{flex:1}}>
           {

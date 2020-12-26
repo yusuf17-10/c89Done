@@ -112,10 +112,7 @@ export default class MyDonations extends React.Component{
     render(){
         return(
           <View style={{flex:1}}>
-            <MyHeader
-            title={"Donations"}
-            navigation={this.props.navigation}
-            />
+            
             <View style={{flex:1}}>
               {
                 this.state.allDonations.length === 0

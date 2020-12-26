@@ -50,13 +50,12 @@ export default class MyReceivedBookScreen extends React.Component{
     
     render(){
         return(
-            <View>
-                <MyHeader title="Received Books"/>
-                <View>
+            <View style={{flex:1}}>
+                <View style={{flex:1}}>
                     {
                         this.state.receivedBookList===0 ? 
                         (
-                            <View>
+                            <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
                             <Text>
                              List Of All Received Books
                             </Text>

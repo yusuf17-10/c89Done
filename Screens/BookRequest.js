@@ -1,8 +1,10 @@
 import * as React from 'react';
-import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,ALert} from 'react-native';
+import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,ALert,TouchableHighlight} from 'react-native';
 import firebase from "firebase";
 import db from "../config"
 import { ThemeProvider } from 'react-native-elements';
+import {BookSearch} from "react-native-google-books";
+import { FlatList } from 'react-native-gesture-handler';
 
 export default class BookRequest extends React.Component{
     constructor(){
@@ -12,13 +14,50 @@ export default class BookRequest extends React.Component{
             bookName:"",
             reasonToRequest:"",
             isBookRequestActive:"",
-            userDocId:""
+            userDocId:"",
+            dataSource:"",
+            showFlatList:false
         }
 
     }
 
     createuniqueId(){
         return Math.random().toString(36).substring(7);
+    }
+
+   /*componentDidMount(){
+        var books = BookSearch.searchBook("Harry Potter","AIzaSyCT2YrQaaYnl9OM4KI-E4A9E2fZZisZAlA")
+    }*/
+
+    async getBooksFromApi(bookName){
+        this.setState({bookName:bookName})
+        if(bookName.length>2){
+            var books = await BookSearch.searchBook(bookName,"AIzaSyCT2YrQaaYnl9OM4KI-E4A9E2fZZisZAlA")
+            this.setState({dataSource:books.data,showFlatList:true})
+
+        }
+    }
+    renderItem=({item,i})=>{
+        return(
+            <TouchableHighlight style={{
+                alignItems:"center",
+                backgroundColor:"pink",
+                padding:10,
+                width:"90%",
+            }} 
+            activeOpacity={0.6}
+            underlayColor={"blue"}
+            onPress={()=>{
+                this.setState({
+                    showFlatList:false,bookName:item.volumeInfo.title
+                })
+            }}
+            bottomDivider>
+
+                <Text>{item.volumeInfo.title}</Text>
+
+            </TouchableHighlight>
+        )
     }
 
     sendNotification=()=>{
@@ -63,12 +102,14 @@ export default class BookRequest extends React.Component{
     addRequest=async(bookName,reasonToRequest)=>{
         var userId=this.state.userId
         var randomRequestId=this.createuniqueId();
+        var books = await BookSearch.searchBook(bookName,"AIzaSyCT2YrQaaYnl9OM4KI-E4A9E2fZZisZAlA")
         db.collection("requestedBooks").add({
             userId:userId,
             bookName:bookName,
             reasonToRequest:reasonToRequest,
             requestId:randomRequestId,
-            date:firebase.firestore.FieldValue.serverTimestamp()
+            date:firebase.firestore.FieldValue.serverTimestamp(),
+            imageLink:books.data[0].volumeInfo.imageLink.smallThumbnail
         })
          await this.getBookRequest()
         db.collection("user").where("emailId","==",userId).get()
@@ -173,7 +214,19 @@ render(){
             <Text>BookRequest Screen</Text>
             
             <KeyboardAvoidingView>
-                <TextInput style={styles.input} 
+           
+
+                {
+                    this.state.showFlatList ?
+                    (
+                    <FlatList
+                    data={this.state.dataSource}
+                    renderItem={this.renderItem}
+                    keyExtractor={(item,index)=> index.toString()}/>
+                    )
+                    :(
+                       <View>
+                 <TextInput style={styles.input} 
                 placeholder="Enter Book Name"
                 onChangeText={(text)=>{
                     this.setState({bookName:text});
@@ -192,6 +245,7 @@ render(){
                 
                 value={this.state.reasonToRequest}
                 />
+                
                 <TouchableOpacity style={styles.button}
 
                 onPress={()=>{
@@ -199,6 +253,11 @@ render(){
                 }}>
                     <Text>Request</Text>
                 </TouchableOpacity>
+
+                       </View> 
+                    )
+                }
+
             </KeyboardAvoidingView>
         </View>
     )

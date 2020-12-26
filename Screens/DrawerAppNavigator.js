@@ -4,11 +4,15 @@ import {AppTabNavigator} from "../Components/AppTabNavigator";
 import SideBarMenu from "../Components/SideBarMenu";
 import SettingScreen from "../Screens/SettingScreen";
 import MyDonations from "./MyDonationsScreen";
-
+import NotificationScreen from "./NotificationScreen";
+import MyReceivedBookScreen from "./MyReceivedBookScreen";
 export const AppDrawerNavigator=createDrawerNavigator({
     Home:{screen:AppTabNavigator},
     MyDonations:{screen:MyDonations},
-    Setting:{screen:SettingScreen},
+    Notifications:{screen:NotificationScreen},
+    MyReceivedBooks:{screen:MyReceivedBookScreen},
+    Setting:{screen:SettingScreen}
+    
     
 },
 
