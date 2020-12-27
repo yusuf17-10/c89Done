@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,ALert,TouchableHighlight} from 'react-native';
+import {View,Text,StyleSheet,TextInput,KeyboardAvoidingView,TouchableOpacity,Alert,TouchableHighlight} from 'react-native';
 import firebase from "firebase";
 import db from "../config"
 import { ThemeProvider } from 'react-native-elements';
@@ -16,7 +16,12 @@ export default class BookRequest extends React.Component{
             isBookRequestActive:"",
             userDocId:"",
             dataSource:"",
-            showFlatList:false
+            showFlatList:false,
+            requestedBookName:"",
+            bookStatus:"",
+            requestId:"",
+            docId:"",
+            imageLink:""
         }
 
     }
@@ -25,14 +30,15 @@ export default class BookRequest extends React.Component{
         return Math.random().toString(36).substring(7);
     }
 
-   /*componentDidMount(){
-        var books = BookSearch.searchBook("Harry Potter","AIzaSyCT2YrQaaYnl9OM4KI-E4A9E2fZZisZAlA")
-    }*/
+   componentDidMount(){
+        this.getBookRequest()
+        this.getIsBookRequestActive()   
+    }
 
     async getBooksFromApi(bookName){
         this.setState({bookName:bookName})
         if(bookName.length>2){
-            var books = await BookSearch.searchBook(bookName,"AIzaSyCT2YrQaaYnl9OM4KI-E4A9E2fZZisZAlA")
+            var books = await BookSearch.searchbook(bookName,"AIzaSyCT2YrQaaYnl9OM4KI-E4A9E2fZZisZAlA")
             this.setState({dataSource:books.data,showFlatList:true})
 
         }
@@ -99,17 +105,20 @@ export default class BookRequest extends React.Component{
         })
     }
 
+
+
     addRequest=async(bookName,reasonToRequest)=>{
         var userId=this.state.userId
         var randomRequestId=this.createuniqueId();
-        var books = await BookSearch.searchBook(bookName,"AIzaSyCT2YrQaaYnl9OM4KI-E4A9E2fZZisZAlA")
+        var books = await BookSearch.searchbook(bookName,"AIzaSyCT2YrQaaYnl9OM4KI-E4A9E2fZZisZAlA")
         db.collection("requestedBooks").add({
             userId:userId,
             bookName:bookName,
             reasonToRequest:reasonToRequest,
             requestId:randomRequestId,
             date:firebase.firestore.FieldValue.serverTimestamp(),
-            imageLink:books.data[0].volumeInfo.imageLink.smallThumbnail
+            imageLink:books.data[0].volumeInfo.imageLinks.smallThumbnail
+
         })
          await this.getBookRequest()
         db.collection("user").where("emailId","==",userId).get()
@@ -174,7 +183,7 @@ render(){
 
         return(
             <View style={{flex:1,justifyContent:"center"}}>
-                <View style={{justifyContent:"center",flex:1,flexDirection:'row'}}>
+                <View style={{marginTop:10,flex:0.5,flexDirection:'column'}}>
                 <Text>
                     BOOK NAME
                 </Text>
@@ -186,7 +195,7 @@ render(){
                 </Text>
                 </View>
 
-                <View style={{justifyContent:"center",flex:1,flexDirection:'row'}}>
+                <View style={{marginTop:50,flex:0.3,flexDirection:'row'}}>
                 <Text>
                     BOOK Status
                 </Text>
@@ -214,7 +223,17 @@ render(){
             <Text>BookRequest Screen</Text>
             
             <KeyboardAvoidingView>
-           
+            <TextInput style={styles.input} 
+                placeholder="Enter Book Name"
+                onChangeText={(text)=>{
+                    this.getBooksFromApi(text)
+                }}
+                onClear={(text)=>{
+                    this.getBooksFromApi("")
+                }}
+                value={this.state.bookName}
+                />
+     
 
                 {
                     this.state.showFlatList ?
@@ -226,15 +245,7 @@ render(){
                     )
                     :(
                        <View>
-                 <TextInput style={styles.input} 
-                placeholder="Enter Book Name"
-                onChangeText={(text)=>{
-                    this.setState({bookName:text});
-                }}
-                
-                value={this.state.bookName}
-                />
-
+              
                 <TextInput style={[styles.input,{height:200}]} 
                 multiline
                 numberOfLines={8}
