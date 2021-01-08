@@ -5,6 +5,7 @@ import firebase from "firebase";
 import db from "../config";
 import MyHeader from "../Components/MyHeader";
 import SwipeableFlatList from "../Components/SwipebleFlatList";
+import {RFValue} from "react-native-responsive-fontsize"
 export default class NotificationsScreen extends React.Component{
     constructor(props){
         super(props);
@@ -79,3 +80,22 @@ export default class NotificationsScreen extends React.Component{
     }
     
 }
+
+const styles = StyleSheet.create({
+  button:{
+      backgroundColor: '#81c0d4',
+      alignItems: 'center',
+      alignSelf: 'center',
+      justifyContent: 'center',
+      borderRadius: 10,
+      marginTop:RFValue(60),
+      borderWidth:2,
+      width:150,
+      height:50,
+  },
+  text:{
+      justifyContent:"center",
+      marginTop:RFValue(30),
+      fontSize:10
+  }
+})

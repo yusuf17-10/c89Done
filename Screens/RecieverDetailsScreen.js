@@ -1,11 +1,10 @@
 import * as React from "react";
-import { render } from "react-dom";
-import {SnapshotViewIOS, Text,TouchableOpacity,View} from "react-native";
+import {Text,TouchableOpacity,View,StyleSheet} from "react-native";
 import {AppStackNavigator} from "../Components/AppStackNavigator";
 import firebase from "firebase";
 import db from "../config";
 import {Card} from "react-native-elements";
-
+import {RFValue} from "react-native-responsive-fontsize"
 export default class ReceiverDetails extends React.Component{
     constructor(props){
         super(props);
@@ -72,20 +71,24 @@ export default class ReceiverDetails extends React.Component{
 
                 <View>
 
-                <Text>
+            <Card>
+                <Text style={styles.text} >
                     Name:{this.state.bookName}
                 </Text>
+
+                </Card>
 
                 </View>
                 
 
                 <View>
                     {this.state.receiverId!== this.state.userId ?
-                    (<TouchableOpacity onPress={()=>{
+                    (<TouchableOpacity style={styles.button}
+                         onPress={()=>{
                         this.addNotification()
                         this.updateBookStatus()
                         this.props.navigation.navigate("MyDonations")
-                    }}><Text>I Want To Donate</Text></TouchableOpacity>)
+                    }}><Text style={styles.text}>I Want To Donate</Text></TouchableOpacity>)
                 :null}
 
                 </View>
@@ -93,3 +96,22 @@ export default class ReceiverDetails extends React.Component{
         )
     }
 }
+
+const styles = StyleSheet.create({
+    button:{
+        backgroundColor: '#81c0d4',
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        marginTop:RFValue(60),
+        borderWidth:2,
+        width:150,
+        height:50,
+    },
+    text:{
+        justifyContent:"center",
+        marginTop:RFValue(30),
+        fontSize:10
+    }
+})

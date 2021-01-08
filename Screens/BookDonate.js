@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     flex:1,
     fontSize: 20,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    backgroundColor:'orange'
   },
   button:{
     width:100,

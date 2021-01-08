@@ -9,8 +9,9 @@ import {
   Modal,
   ScrollView,
   KeyboardAvoidingView,
+  Image
 } from 'react-native';
-
+import {RFValue} from "react-native-responsive-fontsize";
 import firebase from "firebase";
 import db from "../config"
 
@@ -103,9 +104,8 @@ export default class WelcomeScreen extends React.Component {
         this.setState({lastName:text})
       }}/>
        <TextInput
-             value={this.state.address}
-
-       style={styles.input} 
+      value={this.state.address}
+      style={styles.input} 
       placeholder={"address"}
       multiline={true}
       onChangeText={(text)=>{
@@ -114,11 +114,10 @@ export default class WelcomeScreen extends React.Component {
        <TextInput 
        style={styles.input}
        value={this.state.phone}
-
-      placeholder={"PhoneNumber"}
-      keyboardType={"numeric"}
-      maxLength={10}
-      onChangeText={(text)=>{
+        placeholder={"PhoneNumber"}
+        keyboardType={"numeric"}
+        maxLength={10}
+        onChangeText={(text)=>{
         this.setState({phone:text})
       }}/>
 
@@ -179,6 +178,10 @@ export default class WelcomeScreen extends React.Component {
     return (
       <View style={styles.container}>
 
+        <Image
+            source={"assets/BookSanta.jpg"}
+            style={{justifyContent:"center",alignSelf:"center"}}
+        />
         <View>
         
           <Text>BookSanta</Text>
@@ -235,27 +238,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ecf0f1',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor:'aqua'
   },
   
   input: {
-    backgroundColor: 'green',
+  
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
     borderRadius: 2,
-    marginTop: 10,
+    marginTop: RFValue(10),
     borderWidth:2,
     width:200,
     height:50,
   },
   button: {
-    backgroundColor: 'green',
+    backgroundColor:"#d14038",
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    marginTop: 10,
+    marginTop:RFValue(10),
+    
     borderWidth:2,
     width:150,
     height:50,

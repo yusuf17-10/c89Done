@@ -72,12 +72,18 @@ export default class SideBarMenu extends React.Component{
                 <Avatar
                     rounded
                     source={{
+                        
                         uri : this.state.image
 
-                    }}/>
+                    }}
+                    size = {"xlarge"}
+                    onPress={()=>{
+                        this.selectPicture()
+                    }}
+                    showEditButton/>
                     <Text>{this.state.name}</Text>
                 </View>
-                <View style={{flex:1}}>
+                <View style={{flex:1,backgroundColor:"aqua",fontSize:10,justifyContent:"center",alignItems:"center"}}>
 
                     <DrawerItems {...this.props}/>
                     

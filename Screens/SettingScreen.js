@@ -2,7 +2,7 @@ import * as React from "react";
 import {Text,View,TextInput,TouchableOpacity,StyleSheet, SnapshotViewIOS,Alert} from "react-native";
 import firebase from "firebase";
 import db from "../config";
-
+import {RFValue} from "react-native-responsive-fontsize"
 
 export default class SettingScreen extends React.Component{
     constructor(){
@@ -118,29 +118,30 @@ export default class SettingScreen extends React.Component{
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#ecf0f1',
+      backgroundColor: '#e3afc5',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor:"pink"
     },
     
     input: {
-      backgroundColor: 'green',
       alignItems: 'center',
       alignSelf: 'center',
       justifyContent: 'center',
       borderRadius: 2,
-      marginTop: 10,
+      marginTop:RFValue(40),
       borderWidth:2,
       width:200,
       height:50,
+     
     },
     button: {
-      backgroundColor: 'green',
+      backgroundColor: '#81c0d4',
       alignItems: 'center',
       alignSelf: 'center',
       justifyContent: 'center',
       borderRadius: 10,
-      marginTop: 10,
+      marginTop:RFValue(60),
       borderWidth:2,
       width:150,
       height:50,
